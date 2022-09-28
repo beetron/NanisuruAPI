@@ -1,3 +1,6 @@
+using NanisuruAPI.Models;
+using MongoDB.Driver;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +9,19 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Register DatabaseSettings
+builder.Services.Configure<MongoDBSettings>(
+    builder.Configuration.GetSection("MongoDBSettings"));
+
+// Register IDatabaseSettings
+builder.Services.AddSingleton<IMongoDatabase>(options =>
+{
+    var settings = builder.Configuration.GetSection("MongoDBSettings").Get<MongoDBSettings>();
+    var client = new MongoClient(settings.ConnectionString);
+//    return (IDatabaseSettings)client.GetDatabase(settings.DatabaseName);
+    return client.GetDatabase(settings.DatabaseName);
+});
 
 var app = builder.Build();
 
