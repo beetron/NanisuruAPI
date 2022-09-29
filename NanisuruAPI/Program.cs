@@ -1,5 +1,6 @@
 using NanisuruAPI.Models;
 using MongoDB.Driver;
+using NanisuruAPI.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,9 @@ builder.Services.AddSingleton<IMongoDatabase>(options =>
 //    return (IDatabaseSettings)client.GetDatabase(settings.DatabaseName);
     return client.GetDatabase(settings.DatabaseName);
 });
+
+// Register Items repository
+builder.Services.AddSingleton<IItemsRepository, ItemsRepository>();
 
 var app = builder.Build();
 
