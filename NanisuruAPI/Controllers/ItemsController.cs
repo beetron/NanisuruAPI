@@ -56,5 +56,19 @@ namespace NanisuruAPI.Controllers
             await _iitemsRepository.UpdateItemsAsync(updateItems);
             return NoContent();
         }
+
+        // Delete an item
+        [HttpDelete]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var items = await _iitemsRepository.GetByIdAsync(id);
+            if (items == null)
+            {
+                return NotFound();
+            }
+
+            await _iitemsRepository.DeleteItemsAsync(id);
+            return NoContent();
+        }
     }
 }

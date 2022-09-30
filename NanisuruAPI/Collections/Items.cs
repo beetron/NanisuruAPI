@@ -7,7 +7,7 @@ namespace NanisuruAPI.Collections
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [BsonElement ("added")]
         public DateTime Added { get; set; }
@@ -18,10 +18,8 @@ namespace NanisuruAPI.Collections
         [BsonElement("itemname")]
         public string ItemName { get; set; }
 
-        [BsonElement("itemdescription")]
-        public string ItemDescription { get; set; }
-
         [BsonElement("itemcategory")]
         public string ItemCategory { get; set; }
+
     }
 }

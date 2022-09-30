@@ -1,4 +1,4 @@
-﻿namespace NanisuruAPI.Models
+﻿namespace NanisuruAPI.Database
 {
     public interface IMongoDBSettings
     {

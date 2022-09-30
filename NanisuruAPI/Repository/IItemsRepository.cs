@@ -8,5 +8,6 @@ namespace NanisuruAPI.Repository
         Task<Items> GetByIdAsync(string id);
         Task CreateNewItemsAsync(Items newItems);
         Task UpdateItemsAsync(Items itemsToUpdate);
+        Task DeleteItemsAsync(string id);
     }
 }

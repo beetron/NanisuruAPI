@@ -36,5 +36,11 @@ namespace NanisuruAPI.Repository
         {
             await _itemsCollection.ReplaceOneAsync(x => x.Id == itemsToUpdate.Id, itemsToUpdate);
         }
+
+        //Delete item
+        public async Task DeleteItemsAsync(string id)
+        {
+            await _itemsCollection.DeleteOneAsync(x => x.Id == id);
+        }
     }
 }

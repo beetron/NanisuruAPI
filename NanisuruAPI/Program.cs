@@ -1,4 +1,4 @@
-using NanisuruAPI.Models;
+using NanisuruAPI.Database;
 using MongoDB.Driver;
 using NanisuruAPI.Repository;
 

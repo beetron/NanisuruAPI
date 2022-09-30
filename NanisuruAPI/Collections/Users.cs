@@ -7,12 +7,13 @@ namespace NanisuruAPI.Collections
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
-        [BsonElement("username")]
-        public string Username { get; set; }
+        [BsonElement("username")] 
+        public string? Username { get; set; }
 
-        [BsonElement("password")]
-        public string Password { get; set; }
+
+        [BsonElement("password")] 
+        public string? Password { get; set; }
     }
 }
