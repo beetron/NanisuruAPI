@@ -1,3 +1,6 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using NanisuruAPI.Database;
 using MongoDB.Driver;
 using NanisuruAPI.Repository;
@@ -11,11 +14,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Register DatabaseSettings
+// DatabaseSettings
 builder.Services.Configure<MongoDbSettings>(
     builder.Configuration.GetSection("MongoDbSettings"));
 
-// Register IDatabaseSettings
+// IDatabaseSettings
 builder.Services.AddSingleton<IMongoDatabase>(options =>
 {
     var settings = builder.Configuration.GetSection("MongoDbSettings").Get<MongoDbSettings>();
@@ -23,12 +26,41 @@ builder.Services.AddSingleton<IMongoDatabase>(options =>
     return client.GetDatabase(settings.DatabaseName);
 });
 
-// Register Items repository
+// Items repository
 builder.Services.AddSingleton<IItemsRepository, ItemsRepository>();
-// Register Users repository
+// Users repository
 builder.Services.AddSingleton<IUsersRepository, UsersRepository>();
 
+// Authorization service
+builder.Services.AddAuthorization();
+
+// Authorization options with JWT
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(o =>
+{
+    o.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey
+            (Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = false,
+        ValidateIssuerSigningKey = true
+    };
+});
+
+
 var app = builder.Build();
+
+// Add Authentication & Authorization
+app.UseAuthentication();
+app.UseAuthorization();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
