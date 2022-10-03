@@ -12,15 +12,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Register DatabaseSettings
-builder.Services.Configure<MongoDBSettings>(
+builder.Services.Configure<MongoDbSettings>(
     builder.Configuration.GetSection("MongoDBSettings"));
 
 // Register IDatabaseSettings
 builder.Services.AddSingleton<IMongoDatabase>(options =>
 {
-    var settings = builder.Configuration.GetSection("MongoDBSettings").Get<MongoDBSettings>();
+    var settings = builder.Configuration.GetSection("MongoDBSettings").Get<MongoDbSettings>();
     var client = new MongoClient(settings.ConnectionString);
-//    return (IDatabaseSettings)client.GetDatabase(settings.DatabaseName);
     return client.GetDatabase(settings.DatabaseName);
 });
 

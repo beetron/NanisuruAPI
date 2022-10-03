@@ -1,6 +1,6 @@
 ﻿namespace NanisuruAPI.Database
 {
-    public interface IMongoDBSettings
+    public interface IMongoDbSettings
     {
         string CollectionName { get; set; }
         string ConnectionString { get; set; }
