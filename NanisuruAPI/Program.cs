@@ -13,18 +13,20 @@ builder.Services.AddSwaggerGen();
 
 // Register DatabaseSettings
 builder.Services.Configure<MongoDbSettings>(
-    builder.Configuration.GetSection("MongoDBSettings"));
+    builder.Configuration.GetSection("MongoDbSettings"));
 
 // Register IDatabaseSettings
 builder.Services.AddSingleton<IMongoDatabase>(options =>
 {
-    var settings = builder.Configuration.GetSection("MongoDBSettings").Get<MongoDbSettings>();
+    var settings = builder.Configuration.GetSection("MongoDbSettings").Get<MongoDbSettings>();
     var client = new MongoClient(settings.ConnectionString);
     return client.GetDatabase(settings.DatabaseName);
 });
 
 // Register Items repository
 builder.Services.AddSingleton<IItemsRepository, ItemsRepository>();
+// Register Users repository
+builder.Services.AddSingleton<IUsersRepository, UsersRepository>();
 
 var app = builder.Build();
 

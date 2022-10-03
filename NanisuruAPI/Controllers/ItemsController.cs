@@ -14,7 +14,7 @@ namespace NanisuruAPI.Controllers
             _iitemsRepository = iitemsRepository;
         }
 
-        // Get collection
+        // Get Items collection
         [HttpGet]
         public async Task<IActionResult> Get()
         {
