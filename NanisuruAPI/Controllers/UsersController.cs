@@ -9,6 +9,7 @@ namespace NanisuruAPI.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+
         readonly IUsersRepository _iUsersRepository;
         public UsersController(IUsersRepository iUsersRepository)
         {
