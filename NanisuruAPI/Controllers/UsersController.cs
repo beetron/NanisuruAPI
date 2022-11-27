@@ -31,5 +31,20 @@ namespace NanisuruAPI.Controllers
             await _iUsersRepository.AddUsersAsync(newUsers);
             return CreatedAtAction(nameof(Get), new { id = newUsers.Id }, newUsers);
         }
+
+        // Delete an item
+        [HttpDelete]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var users = await _iUsersRepository.GetByIdAsync(id);
+            if (users == null)
+            {
+                return NotFound();
+            }
+
+            await _iUsersRepository.DeleteUsersAsync(id);
+            return NoContent();
+        }
+
     }
 }

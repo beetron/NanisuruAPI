@@ -397,3 +397,13 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 NanisuruAPI/appsettings.json
+
+db.items.insertOne(
+{
+itemname: "Eat Burgers とか",
+itemdescription: "あそこのrestaurantでeatする",
+itemcategory: "eats"
+}
+)
+
+停電　11月13日
