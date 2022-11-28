@@ -1,8 +1,12 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using NanisuruAPI.Database;
 using MongoDB.Driver;
+using NanisuruAPI.Collections;
 using NanisuruAPI.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +17,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// AWS SystemManager
+builder.Configuration.AddSystemsManager("/nanisuru-api", TimeSpan.FromDays(1));
 
 // DatabaseSettings
 builder.Services.Configure<MongoDbSettings>(
@@ -34,7 +41,7 @@ builder.Services.AddSingleton<IUsersRepository, UsersRepository>();
 // Authorization service
 builder.Services.AddAuthorization();
 
-// Authorization options with JWT
+// Authentication options with JWT
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -57,6 +64,43 @@ builder.Services.AddAuthentication(options =>
 
 
 var app = builder.Build();
+
+// JWT Creation
+app.MapPost("/token",
+    [AllowAnonymous](Users user) =>
+    {
+        if (user.Username == (builder.Configuration["Userpass:User"]) &&
+            user.Password == (builder.Configuration["Userpass:Pass"]))
+        {
+            var issuer = builder.Configuration["Jwt:Issuer"];
+            var audience = builder.Configuration["Jwt:Audience"];
+            var key = Encoding.ASCII.GetBytes
+                (builder.Configuration["Jwt:Key"]);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim("Id", Guid.NewGuid().ToString()),
+                    new Claim(JwtRegisteredClaimNames.Sub, user.Username),
+                    new Claim(JwtRegisteredClaimNames.Email, user.Password),
+                    new Claim(JwtRegisteredClaimNames.Jti,
+                        Guid.NewGuid().ToString())
+                }),
+                Expires = DateTime.UtcNow.AddDays(30),
+                Issuer = issuer,
+                Audience = audience,
+                SigningCredentials = new SigningCredentials
+                (new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha512Signature)
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var jwtToken = tokenHandler.WriteToken(token);
+            var stringToken = tokenHandler.WriteToken(token);
+            return Results.Ok(stringToken);
+        }
+        return Results.Unauthorized();
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -14,10 +14,11 @@ namespace NanisuruAPI.Repository
         }
 
         // Get collection
-        public async Task<List<Users>> GetUsersAsync(string id)
+        public async Task<List<Users>> GetUsersAsync()
         {
             return await _usersCollection.Find(_ => true).ToListAsync();
         }
+
 
         // Get by Id
         public async Task<Users> GetByIdAsync(string id)
