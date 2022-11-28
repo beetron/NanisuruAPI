@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NanisuruAPI.Collections;
 using NanisuruAPI.Repository;
 
 namespace NanisuruAPI.Controllers
 {
+    [Authorize]
     [Route("[controller]")]
     [ApiController]
     public class ItemsController : ControllerBase
