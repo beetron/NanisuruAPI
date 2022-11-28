@@ -19,6 +19,20 @@ namespace NanisuruAPI.Repository
             return await _usersCollection.Find(_ => true).ToListAsync();
         }
 
+
+        // Get by Id
+        public async Task<Users> GetByIdAsync(string id)
+        {
+            return await _usersCollection.Find(_ => _.Id == id).FirstOrDefaultAsync();
+
+        }
+
+        //Delete item
+        public async Task DeleteUsersAsync(string id)
+        {
+            await _usersCollection.DeleteOneAsync(x => x.Id == id);
+        }
+
         // Add single user
         public async Task AddUsersAsync(Users newUsers)
         {
