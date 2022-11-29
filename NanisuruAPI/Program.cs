@@ -18,6 +18,21 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// CORs policy setting
+var AllowList = "_AllowList";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: AllowList,
+        builder =>
+        {
+            builder.WithOrigins("https://btro.net",
+                "http://localhost:3000")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
 // AWS SystemManager
 builder.Configuration.AddSystemsManager("/nanisuru-api", TimeSpan.FromDays(1));
 
@@ -114,6 +129,9 @@ app.UseHttpsRedirection();
 // Add Authentication & Authorization
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Add CORs services
+app.UseCors(AllowList);
 
 app.MapControllers();
 
