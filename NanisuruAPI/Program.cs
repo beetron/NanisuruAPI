@@ -1,5 +1,4 @@
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -93,26 +92,21 @@ app.MapPost("/token",
                 (builder.Configuration["Jwt:Key"]);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim("Id", Guid.NewGuid().ToString()),
-                    new Claim(JwtRegisteredClaimNames.Sub, user.Username),
-                    new Claim(JwtRegisteredClaimNames.Email, user.Password),
-                    new Claim(JwtRegisteredClaimNames.Jti,
-                        Guid.NewGuid().ToString())
-                }),
-                Expires = DateTime.UtcNow.AddDays(30),
+                Expires = DateTime.UtcNow.AddMinutes(60),
                 Issuer = issuer,
                 Audience = audience,
                 SigningCredentials = new SigningCredentials
                 (new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha512Signature)
+                    SecurityAlgorithms.HmacSha256Signature)
             };
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            var jwtToken = tokenHandler.WriteToken(token);
             var stringToken = tokenHandler.WriteToken(token);
-            return Results.Ok(stringToken);
+            var responseBody = new
+            {
+                token = stringToken
+            };
+            return Results.Ok(responseBody);
         }
         return Results.Unauthorized();
 });
