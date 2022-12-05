@@ -55,7 +55,7 @@ builder.Services.AddSingleton<IUsersRepository, UsersRepository>();
 // Authorization service
 builder.Services.AddAuthorization();
 
-// Authentication options with JWT
+// JWT Authentication options
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -78,38 +78,6 @@ builder.Services.AddAuthentication(options =>
 
 
 var app = builder.Build();
-
-// JWT Creation
-app.MapPost("/token",
-    [AllowAnonymous](Users user) =>
-    {
-        if (user.Username == (builder.Configuration["Userpass:User"]) &&
-            user.Password == (builder.Configuration["Userpass:Pass"]))
-        {
-            var issuer = builder.Configuration["Jwt:Issuer"];
-            var audience = builder.Configuration["Jwt:Audience"];
-            var key = Encoding.ASCII.GetBytes
-                (builder.Configuration["Jwt:Key"]);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Expires = DateTime.UtcNow.AddMinutes(60),
-                Issuer = issuer,
-                Audience = audience,
-                SigningCredentials = new SigningCredentials
-                (new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha256Signature)
-            };
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var stringToken = tokenHandler.WriteToken(token);
-            var responseBody = new
-            {
-                token = stringToken
-            };
-            return Results.Ok(responseBody);
-        }
-        return Results.Unauthorized();
-});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
