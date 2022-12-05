@@ -25,8 +25,6 @@ namespace NanisuruAPI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginModel request)
         {
-            //var builder = WebApplication.CreateBuilder();
-
             // Static user
             if ((request.username == _configuration["Userpass:User"]) &&
                 (request.password == _configuration["Userpass:Pass"]))
@@ -45,8 +43,6 @@ namespace NanisuruAPI.Controllers
 
         private string CreateToken()
         {
-            //var builder = WebApplication.CreateBuilder();
-
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
