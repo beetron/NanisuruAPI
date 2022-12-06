@@ -71,6 +71,19 @@ builder.Services.AddAuthentication(options =>
         ValidateLifetime = false,
         ValidateIssuerSigningKey = true
     };
+    // HttpOnly Cookie
+    o.Events = new JwtBearerEvents()
+    {
+        OnMessageReceived = context =>
+        {
+            if (context.Request.Cookies.ContainsKey("X-Access-Token"))
+            {
+                context.Token = context.Request.Cookies["X-Access-Token"];
+            }
+
+            return Task.CompletedTask;
+        }
+    };
 });
 
 
