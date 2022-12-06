@@ -20,6 +20,7 @@ namespace NanisuruAPI.Controllers
         {
             public string username { get; set; }
             public string password { get; set; }
+
         }
 
         [HttpPost("login")]
@@ -31,6 +32,7 @@ namespace NanisuruAPI.Controllers
             {
                 //Token creation
                 var tokenString = CreateToken();
+
                 var response = new
                 {
                     token = tokenString
@@ -48,7 +50,7 @@ namespace NanisuruAPI.Controllers
             var token = new JwtSecurityToken(
                 issuer: "localhost",
                 audience: "localhost",
-                expires: DateTime.Now.AddMinutes(5), // Expires in 5 minutes
+                expires: DateTime.Now.AddDays(7),
                 signingCredentials: creds
             );
             return new JwtSecurityTokenHandler().WriteToken(token);

@@ -1,11 +1,8 @@
-using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using NanisuruAPI.Database;
 using MongoDB.Driver;
-using NanisuruAPI.Collections;
 using NanisuruAPI.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
