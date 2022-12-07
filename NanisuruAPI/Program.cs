@@ -23,8 +23,9 @@ builder.Services.AddCors(options =>
         builder =>
         {
             builder.WithOrigins("https://btro.net",
-                "http://localhost:3000")
+                    "http://localhost:3000")
                 .AllowAnyHeader()
+                .AllowCredentials()
                 .AllowAnyMethod();
         });
 });

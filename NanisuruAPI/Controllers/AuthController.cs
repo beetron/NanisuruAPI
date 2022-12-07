@@ -42,10 +42,14 @@ namespace NanisuruAPI.Controllers
                 Response.Cookies.Append("X-Access-Token", tokenString, new CookieOptions()
                 {
                     HttpOnly = true,
-                    SameSite = SameSiteMode.None,
+                    Expires = DateTime.UtcNow.AddDays(7),
+                    SameSite = SameSiteMode.Strict,
                     Secure = true
                 });
-                return Ok();
+                return Ok(new
+                {
+                    message = "success"
+                });
             }
 
             return Unauthorized();
