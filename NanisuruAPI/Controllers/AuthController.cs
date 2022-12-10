@@ -43,7 +43,7 @@ namespace NanisuruAPI.Controllers
                 {
                     HttpOnly = true,
                     Expires = DateTime.UtcNow.AddDays(7),
-                    SameSite = SameSiteMode.Strict,
+                    SameSite = SameSiteMode.None,
                     Secure = true
                 });
                 return Ok(new
@@ -60,8 +60,8 @@ namespace NanisuruAPI.Controllers
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
-                issuer: "localhost",
-                audience: "localhost",
+                issuer: "https://localhost",
+                audience: "https://localhost",
                 expires: DateTime.Now.AddDays(7),
                 signingCredentials: creds
             );

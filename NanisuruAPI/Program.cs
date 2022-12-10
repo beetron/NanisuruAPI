@@ -23,7 +23,7 @@ builder.Services.AddCors(options =>
         builder =>
         {
             builder.WithOrigins("https://btro.net",
-                    "http://localhost:3000")
+                    "http://localhost:3000", "https://localhost:7089")
                 .AllowAnyHeader()
                 .AllowCredentials()
                 .AllowAnyMethod();
@@ -59,7 +59,13 @@ builder.Services.AddAuthentication(options =>
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(o =>
+})
+    // Cookie Token
+    .AddCookie(o =>
+    {
+        o.Cookie.Name = "X-Access-Token";
+    })
+    .AddJwtBearer(o =>
 {
     o.TokenValidationParameters = new TokenValidationParameters
     {
@@ -73,15 +79,11 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true
     };
     // HttpOnly Cookie
-    o.Events = new JwtBearerEvents()
+    o.Events = new JwtBearerEvents
     {
         OnMessageReceived = context =>
         {
-            if (context.Request.Cookies.ContainsKey("X-Access-Token"))
-            {
-                context.Token = context.Request.Cookies["X-Access-Token"];
-            }
-
+            context.Token = context.Request.Cookies["X-Access-Token"];
             return Task.CompletedTask;
         }
     };
