@@ -60,11 +60,6 @@ builder.Services.AddAuthentication(options =>
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 })
-    // Cookie Token
-    .AddCookie(o =>
-    {
-        o.Cookie.Name = "X-Access-Token";
-    })
     .AddJwtBearer(o =>
 {
     o.TokenValidationParameters = new TokenValidationParameters
@@ -77,15 +72,6 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidateLifetime = false,
         ValidateIssuerSigningKey = true
-    };
-    // HttpOnly Cookie
-    o.Events = new JwtBearerEvents
-    {
-        OnMessageReceived = context =>
-        {
-            context.Token = context.Request.Cookies["X-Access-Token"];
-            return Task.CompletedTask;
-        }
     };
 });
 

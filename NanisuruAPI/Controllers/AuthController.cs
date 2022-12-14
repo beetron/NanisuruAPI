@@ -37,21 +37,8 @@ namespace NanisuruAPI.Controllers
                 {
                     token = tokenString
                 };
-
-                // Save response to HttpOnly Cookie
-                Response.Cookies.Append("X-Access-Token", tokenString, new CookieOptions()
-                {
-                    HttpOnly = true,
-                    Expires = DateTime.UtcNow.AddDays(7),
-                    SameSite = SameSiteMode.Lax,
-                    Secure = true
-                });
-                return Ok(new
-                {
-                    message = "success"
-                });
+                return Ok(response);
             }
-
             return Unauthorized();
         }
 
