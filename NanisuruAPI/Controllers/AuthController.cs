@@ -43,7 +43,7 @@ namespace NanisuruAPI.Controllers
                 {
                     HttpOnly = true,
                     Expires = DateTime.UtcNow.AddDays(7),
-                    SameSite = SameSiteMode.None,
+                    SameSite = SameSiteMode.Lax,
                     Secure = true
                 });
                 return Ok(new
