@@ -35,7 +35,8 @@ namespace NanisuruAPI.Controllers
 
                 var response = new
                 {
-                    token = tokenString
+                    token = tokenString,
+                    expire = DateTime.Now + TimeSpan.FromDays(7)
                 };
                 return Ok(response);
             }
