@@ -21,8 +21,8 @@ namespace NanisuruAPI.Collections
         [BsonElement("itemcategory")]
         public string ItemCategory { get; set; }
 
-        [BsonElement("itemimage")]
-        public string ItemImage { get; set; }
+        // [BsonElement("itemimage")]
+        // public string ItemImage { get; set; }
 
     }
 }
