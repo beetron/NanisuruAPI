@@ -22,8 +22,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: AllowList,
         builder =>
         {
-            builder.WithOrigins("https://btro.net",
-                    "http://localhost:3000", "https://localhost:7089", "https://localhost:7095")
+            builder.WithOrigins("https://btro.net/*","https://localhost:7095")
                 .AllowAnyHeader()
                 .AllowCredentials()
                 .AllowAnyMethod();
@@ -87,12 +86,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// Add CORs services
+app.UseCors(AllowList);
+
 // Add Authentication & Authorization
 app.UseAuthentication();
 app.UseAuthorization();
-
-// Add CORs services
-app.UseCors(AllowList);
 
 app.MapControllers();
 
