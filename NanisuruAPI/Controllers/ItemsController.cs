@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Net;
+using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using NanisuruAPI.Collections;
 using NanisuruAPI.Repository;
@@ -16,6 +19,17 @@ namespace NanisuruAPI.Controllers
             _iitemsRepository = iitemsRepository;
         }
 
+        // OPTIONS response
+        // [HttpOptions]
+        // public IActionResult Options()
+        // {
+        //     Response.Headers.Add("Access-Control-Allow-Credentials", "true");
+        //     Response.Headers.Add("Access-Control-Allow-Origin", "https://localhost:7095");
+        //     Response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS");
+        //     Response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, X-Requested-With, Accept, Authorization, Origin");
+        //     return Ok(HttpStatusCode.OK);
+        // }
+
         // Get Items collection
         [HttpGet]
         public async Task<IActionResult> Get()
@@ -24,8 +38,22 @@ namespace NanisuruAPI.Controllers
             return Ok(items);
         }
 
+        [HttpGet("Incomplete")]
+        public async Task<IActionResult> Incomplete()
+        {
+            var items = await _iitemsRepository.GetIncompleteItems();
+            return Ok(items);
+        }
+
+        [HttpGet("Completed")]
+        public async Task<IActionResult> Completed()
+        {
+            var items = await _iitemsRepository.GetCompletedItems();
+            return Ok(items);
+        }
+
         // Get by collection Id
-        [HttpGet]
+        [HttpGet("{id:length(24)}")]
         [Route("{id}")]
         public async Task<IActionResult> Get(string id)
         {
@@ -46,7 +74,7 @@ namespace NanisuruAPI.Controllers
         }
 
         // Update an item
-        [HttpPut]
+        [HttpPut("{id:length(24)}")]
         public async Task<IActionResult> Put(Items updateItems)
         {
             var items = await _iitemsRepository.GetByIdAsync(updateItems.Id);
@@ -60,7 +88,8 @@ namespace NanisuruAPI.Controllers
         }
 
         // Delete an item
-        [HttpDelete]
+        [HttpDelete("{id:length(24)}")]
+        [Route("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
             var items = await _iitemsRepository.GetByIdAsync(id);

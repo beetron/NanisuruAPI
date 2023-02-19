@@ -20,12 +20,12 @@ var AllowList = "_AllowList";
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: AllowList,
-        builder =>
+        policy =>
         {
-            builder.WithOrigins("https://btro.net/*","https://localhost:7095")
+            policy.WithOrigins("https://localhost:7095","https://btro.net")
                 .AllowAnyHeader()
-                .AllowCredentials()
-                .AllowAnyMethod();
+                .AllowAnyMethod()
+                .AllowCredentials();
         });
 });
 

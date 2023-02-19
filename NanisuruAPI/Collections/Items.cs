@@ -18,6 +18,9 @@ namespace NanisuruAPI.Collections
         [BsonElement("itemname")]
         public string ItemName { get; set; }
 
+        [BsonElement("itemstatus")]
+        public bool ItemStatus{ get; set; }
+
         //[BsonElement("itemcategory")]
         //public string ItemCategory { get; set; }
 
