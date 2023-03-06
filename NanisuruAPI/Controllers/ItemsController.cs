@@ -38,6 +38,15 @@ namespace NanisuruAPI.Controllers
             return Ok(items);
         }
 
+
+        // OPTIONS method handler for localhost CORs testing
+        [HttpOptions("Incomplete")]
+        public IActionResult IncompleteOptions()
+        {
+            return NoContent();
+        }
+
+        // Get Incomplete items
         [HttpGet("Incomplete")]
         public async Task<IActionResult> Incomplete()
         {
@@ -45,6 +54,14 @@ namespace NanisuruAPI.Controllers
             return Ok(items);
         }
 
+        // OPTIONS method handler for localhost CORs testing
+        [HttpOptions("Completed")]
+        public IActionResult CompletedOptions()
+        {
+            return NoContent();
+        }
+
+        // Get Complete items
         [HttpGet("Completed")]
         public async Task<IActionResult> Completed()
         {
@@ -87,6 +104,13 @@ namespace NanisuruAPI.Controllers
             return NoContent();
         }
 
+        // OPTIONS method handler for localhost CORs testing
+        [HttpOptions("{id:length(24)}")]
+        [Route("{id}")]
+        public IActionResult DeleteOptions()
+        {
+            return NoContent();
+        }
         // Delete an item
         [HttpDelete("{id:length(24)}")]
         [Route("{id}")]

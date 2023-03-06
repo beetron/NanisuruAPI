@@ -22,10 +22,11 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: AllowList,
         policy =>
         {
-            policy.WithOrigins("https://localhost:7095","https://btro.net")
+            policy.WithOrigins("https://localhost:7095", "https://btro.net")
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();
+                //.WithExposedHeaders("Access-Control-Allow-Origin, Access-Control-Allow-Credentials");
         });
 });
 
