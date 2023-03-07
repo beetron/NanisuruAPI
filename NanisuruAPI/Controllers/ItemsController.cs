@@ -55,14 +55,14 @@ namespace NanisuruAPI.Controllers
         }
 
         // OPTIONS method handler for localhost CORs testing
-        [HttpOptions("Completed")]
+        [HttpOptions("Complete")]
         public IActionResult CompletedOptions()
         {
             return NoContent();
         }
 
         // Get Complete items
-        [HttpGet("Completed")]
+        [HttpGet("Complete")]
         public async Task<IActionResult> Completed()
         {
             var items = await _iitemsRepository.GetCompletedItems();

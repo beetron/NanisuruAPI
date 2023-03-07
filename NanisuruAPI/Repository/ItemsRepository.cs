@@ -21,13 +21,13 @@ namespace NanisuruAPI.Repository
         // Get completed collection
         public async Task<List<Items>> GetCompletedItems ()
         {
-            return await _itemsCollection.Find(_ => _.ItemStatus == true).ToListAsync();
+            return await _itemsCollection.Find(_ => _.ItemStatus == "complete").ToListAsync();
         }
 
         // Get Incomplete collection
         public async Task<List<Items>> GetIncompleteItems()
         {
-            return await _itemsCollection.Find(_ => _.ItemStatus == false).ToListAsync();
+            return await _itemsCollection.Find(_ => _.ItemStatus == "incomplete").ToListAsync();
         }
 
         // Get by Id
