@@ -1,7 +1,4 @@
-﻿using System.Net;
-using System.Net.Http.Headers;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NanisuruAPI.Collections;
 using NanisuruAPI.Repository;
@@ -90,8 +87,9 @@ namespace NanisuruAPI.Controllers
             return CreatedAtAction(nameof(Get), new{ id = newItems.Id}, newItems);
         }
 
+
         // Update an item
-        [HttpPut("{id:length(24)}")]
+        [HttpPut]
         public async Task<IActionResult> Put(Items updateItems)
         {
             var items = await _iitemsRepository.GetByIdAsync(updateItems.Id);

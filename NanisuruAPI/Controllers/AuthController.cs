@@ -11,7 +11,6 @@ namespace NanisuruAPI.Controllers
     public class AuthController : ControllerBase
     {
         IConfiguration _configuration;
-
         public AuthController(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -20,7 +19,6 @@ namespace NanisuruAPI.Controllers
         {
             public string username { get; set; }
             public string password { get; set; }
-
         }
 
         [HttpPost("login")]

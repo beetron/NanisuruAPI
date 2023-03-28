@@ -13,24 +13,24 @@ namespace NanisuruAPI.Repository
             _usersCollection = mongoDatabase.GetCollection<Users>("users");
         }
 
-        // Get collection
+        // Get user collection
         public async Task<List<Users>> GetUsersAsync()
         {
             return await _usersCollection.Find(_ => true).ToListAsync();
         }
 
 
-        // Get by Id
+        // Get user by Id
         public async Task<Users> GetByIdAsync(string id)
         {
             return await _usersCollection.Find(_ => _.Id == id).FirstOrDefaultAsync();
-
+        
         }
 
-        //Delete item
+        // Delete user
         public async Task DeleteUsersAsync(string id)
         {
-            await _usersCollection.DeleteOneAsync(x => x.Id == id);
+            // await _usersCollection.DeleteOneAsync(x => x.Id == id);
         }
 
         // Add single user
