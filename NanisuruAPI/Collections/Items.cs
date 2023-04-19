@@ -19,11 +19,14 @@ namespace NanisuruAPI.Collections
         public string ItemName { get; set; }
 
         [BsonElement("itemstatus")]
-        public string ItemStatus{ get; set; }
+        public string ItemStatus { get; set; }
+
+        [BsonElement("filename")]
+        public string? FileName { get; set; }
 
         [BsonElement("binfile")]
         [BsonRepresentation(BsonType.Binary)]
-        public byte[] BinFile { get; set; }
+        public byte[]? BinFile { get; set; }
 
         //[BsonElement("itemcategory")]
         //public string ItemCategory { get; set; }

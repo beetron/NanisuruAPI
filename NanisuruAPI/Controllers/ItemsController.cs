@@ -87,7 +87,6 @@ namespace NanisuruAPI.Controllers
             return CreatedAtAction(nameof(Get), new{ id = newItems.Id}, newItems);
         }
 
-
         // Update an item
         [HttpPut]
         public async Task<IActionResult> Put(Items updateItems)
