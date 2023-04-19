@@ -5,7 +5,7 @@ using NanisuruAPI.Repository;
 
 namespace NanisuruAPI.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("[controller]")]
     [ApiController]
     public class ItemsController : ControllerBase
