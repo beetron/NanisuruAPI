@@ -28,11 +28,9 @@ namespace NanisuruAPI.Collections
         [BsonRepresentation(BsonType.Binary)]
         public byte[]? BinFile { get; set; }
 
-        //[BsonElement("itemcategory")]
-        //public string ItemCategory { get; set; }
-
-        // [BsonElement("itemimage")]
-        // public string ItemImage { get; set; }
+        [BsonElement("url")]
+        public string? Url { get; set; }
+        
 
     }
 }

@@ -4,7 +4,6 @@ using NanisuruAPI.Collections;
 using NanisuruAPI.Repository;
 
 namespace NanisuruAPI.Controllers
-
 {
     [Authorize]
     [Route("[controller]")]
