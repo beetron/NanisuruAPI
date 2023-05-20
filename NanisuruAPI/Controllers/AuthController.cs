@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using NanisuruAPI.Repository;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
@@ -11,9 +12,10 @@ namespace NanisuruAPI.Controllers
     public class AuthController : ControllerBase
     {
         IConfiguration _configuration;
-        public AuthController(IConfiguration configuration)
+        public AuthController(IConfiguration configuration, IUsersRepository usersRepository)
         {
             _configuration = configuration;
+            _usersRepository = usersRepository;
         }
         public class LoginModel
         {
@@ -21,7 +23,37 @@ namespace NanisuruAPI.Controllers
             public string password { get; set; }
         }
 
+        readonly IUsersRepository _usersRepository;
+        // public AuthController(IUsersRepository usersRepository)
+        // {
+        //     _usersRepository = usersRepository;
+        // }
+
         [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginModel request)
+        {
+            // Get users
+            var users = await _usersRepository.GetUsersAsync();
+
+            // Check for if user+pass is valid
+            var matchedUsers = users.FirstOrDefault(u => u.Username == request.username && u.Password == request.password);
+
+            if (matchedUsers != null)
+            {
+                //Token creation
+                var tokenString = CreateToken();
+
+                var response = new
+                {
+                    token = tokenString,
+                    expire = DateTime.Now + TimeSpan.FromDays(7)
+                };
+                return Ok(response);
+            }
+            return Unauthorized();
+        }
+
+        /*[HttpPost("login")]
         public async Task<IActionResult> Login(LoginModel request)
         {
             // Static user
@@ -39,7 +71,7 @@ namespace NanisuruAPI.Controllers
                 return Ok(response);
             }
             return Unauthorized();
-        }
+        }*/
 
         private string CreateToken()
         {

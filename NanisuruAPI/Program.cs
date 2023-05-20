@@ -47,8 +47,9 @@ builder.Services.AddSingleton<IMongoDatabase>(options =>
 
 // Items repository
 builder.Services.AddSingleton<IItemsRepository, ItemsRepository>();
+
 // Users repository
-// builder.Services.AddSingleton<IUsersRepository, UsersRepository>();
+builder.Services.AddSingleton<IUsersRepository, UsersRepository>();
 
 // Authorization service
 builder.Services.AddAuthorization();
