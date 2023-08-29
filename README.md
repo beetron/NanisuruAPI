@@ -5,7 +5,7 @@ The frontend is using Blazor Webassembly.  Repo will be changed from private to 
 
 Features:
 - JWT Auth token to make API calls.
-- User credentials to obtain Token are hardcoded and stored securely via AWS Paramter Store.
+- Database connection information is stored in AWS Paramter Store.
 - Basic CRUD operations.
 
 Update plans:
@@ -27,11 +27,11 @@ Retrieved using Amazon.Extentions.Configuration.SystemsManager(4.0.0) package.
 
 これは個人用のToDoアプリのためのバックエンドAPIです。
 フロントエンドのウェブアプリはAsp.netのBlazor Webassemblyを使用。
-Repositoryのリンクはタッチアップが終わり次第後悔予定です。
+Repositoryのリンクはタッチアップが終わり次第公開予定。
 
 機能:
 - JWT認証トークン
-- ユーザログイン情報は暫定的にハードコードしていますが、データはAWS Parameter Storeへ保管
+- データベース接続情報はAWS Parameter Storeで保管
 - 基本CRUDオペレーション
 
 今後のアップデート:
